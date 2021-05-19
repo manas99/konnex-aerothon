@@ -7,7 +7,7 @@ cd konnex-aerothon
 pip3 install virtualenv
 virtualenv venv
 source venv/bin/activate
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 #### Everytime you run:
 ```bash
