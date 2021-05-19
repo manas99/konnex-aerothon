@@ -1,0 +1,5 @@
+Django==3.2.3
+django-oauth-toolkit==1.5.0
+djangorestframework==3.12.4
+rasa==2.6.2
+python-dotenv==0.17.1
