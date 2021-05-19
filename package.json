@@ -1,0 +1,22 @@
+{
+  "name": "konnex-aerothon",
+  "version": "1.0.0",
+  "description": "Support System for websites",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manas99/konnex-aerothon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manas99/konnex-aerothon/issues"
+  },
+  "homepage": "https://github.com/manas99/konnex-aerothon#readme",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
