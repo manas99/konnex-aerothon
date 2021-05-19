@@ -13,14 +13,14 @@
 ```bash
 pip3 install virtualenv
 virtualenv venv
-source venv/bin/activate # In windows use: `venv/bin/activate`
+source venv/bin/activate # In windows use: `venv\Scripts\activate`
 pip3 install -r requirements.txt
 npm install
 ```
 - follow steps below to setup angular project:
 ```bash
 cd admin-frontend
-npm install
+npm install # In windows use: `venv\Scripts\activate`
 ```
 
 #### Everytime you run:
@@ -28,3 +28,14 @@ npm install
 cd konnex-aerothon
 source venv/bin/activate
 ```
+
+#### To run:
+- backend:
+    - `cd backend`
+    - `python3 manage.py runserver`
+- client-frontend:
+    - `cd client-frontend`
+    - `http-server`
+- admin-frontend:
+    - `cd admin-frontend`
+    - `ng serve`
