@@ -290,3 +290,4 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/macos,python,angular,django
 
 package-lock.json
+admin-frontend/package-lock.json
