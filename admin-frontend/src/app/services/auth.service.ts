@@ -12,13 +12,12 @@ export class AuthService {
 	constructor(private http: HttpClient, private config: ConfigService) { }
 
 	login(username: string, pass: string) {
-		var params = {};
+		var params: any = {};
 		params['username'] = username;
 		params['password'] = pass;
 		return this.http.post<any>(this.config.BASE_API_URL + 'auth/login', params).pipe(tap(
 			res => {
 				if (res.result && res.result.access_token) {
-					this.config.setServerTime();
 					localStorage.setItem('access_token', res.result.access_token);
 					localStorage.setItem('refresh_token', res.result.refresh_token);
 					localStorage.setItem('expires_in', String(res.result.expires_in));
@@ -40,6 +39,7 @@ export class AuthService {
 		localStorage.removeItem('expires_in');
 		localStorage.removeItem('token_type');
 		localStorage.removeItem('user');
+
 	}
 
 	isLoggedIn() {
@@ -50,7 +50,7 @@ export class AuthService {
 	}
 
 	getUser() {
-		var user = JSON.parse(localStorage.getItem('user'))
+		var user: any = JSON.parse(localStorage.getItem('user') || '{}')
 		return user;
 	}
 
@@ -63,7 +63,7 @@ export class AuthService {
 	}
 
 	delete(id: number) {
-		var params = {};
+		var params: any = {};
 		params['user_id'] = id;
 		return this.http.post<any>(this.config.BASE_API_URL + 'users/delete', params)
 	}
@@ -76,7 +76,7 @@ export class AuthService {
 	// 	return this.http.get<any>(this.config.BASE_API_URL + 'users/dashboard/read')
 	// }
 
-	updatePassword(pass) {
+	updatePassword(pass: string) {
 		return this.http.post<any>(this.config.BASE_API_URL + 'users/password/update', { password: pass })
 	}
 
