@@ -36,7 +36,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/alertifyjs/build/alertify.min.js",
+            ]
           },
           "configurations": {
             "production": {
@@ -104,7 +107,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/alertifyjs/build/alertify.min.js",
+            ]
           }
         }
       }

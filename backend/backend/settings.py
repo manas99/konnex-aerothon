@@ -42,6 +42,7 @@ SYSTEM_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'oauth2_provider',
+    'channels',
 ]
 MY_APPS = [
     'api.users',
@@ -78,7 +79,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+# WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = "backend.asgi.application"
 
 
 # Database
@@ -156,3 +158,26 @@ OAUTH2_BASE_URL = os.environ.get('DJANGO_OAUTH2_BASE_URL', BASE_URL)
 
 
 AUTH_USER_MODEL = 'users.User'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        # Method 1: Via redis lab
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [
+        #       'redis://h:<password>;@<redis Endpoint>:<port>'
+        #     ],
+        # },
+
+        # Method 2: Via local Redis
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #      "hosts": [('127.0.0.1', 6379)],
+        # },
+
+        # Method 3: Via In-memory channel layer
+        # Using this method.
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}

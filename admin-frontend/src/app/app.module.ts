@@ -1,5 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+import { TokenInterceptor } from './helpers/token.interceptor';
+import { GlobalErrorHandler } from './helpers/error-handler';
+import { EncodeHttpParamsInterceptor } from './helpers/encoder.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,24 +21,41 @@ import { FullPageComponent } from './layouts/full-page/full-page.component';
 import { SidebarNavComponent } from './layouts/sidebar-nav/sidebar-nav.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AnnouncementsComponent,
-    TutorialsComponent,
-    BugReportComponent,
-    DashboardComponent,
-    UsersComponent,
-    LoginComponent,
-    ChatComponent,
-    FeedbackComponent,
-    FullPageComponent,
-    SidebarNavComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		AnnouncementsComponent,
+		TutorialsComponent,
+		BugReportComponent,
+		DashboardComponent,
+		UsersComponent,
+		LoginComponent,
+		ChatComponent,
+		FeedbackComponent,
+		FullPageComponent,
+		SidebarNavComponent
+	],
+	imports: [
+		BrowserModule,
+		FormsModule,
+		HttpClientModule,
+		AppRoutingModule
+	],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptor,
+			multi: true
+		},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: EncodeHttpParamsInterceptor,
+			multi: true
+		},
+		{
+			provide: ErrorHandler,
+			useClass: GlobalErrorHandler
+		},
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
