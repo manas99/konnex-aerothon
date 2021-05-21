@@ -46,6 +46,9 @@ SYSTEM_APPS = [
 ]
 MY_APPS = [
     'api.users',
+    'api.feedback',
+    'api.announcements',
+    'sockets',
     'helpers',
 ]
 
