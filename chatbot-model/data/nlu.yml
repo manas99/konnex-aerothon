@@ -16,6 +16,19 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
+    - hi bot
+    - good afternoon
+    - hey there
+    - hey are you there
+    - hi bot are you there
+    - heyyy yarr
+    - hi wassup
+    - hey wassup
+    - I hope you are doing great
+    - hey bot how are you
+    - hello how are you
+    - kaisa ha
+
 
 - intent: goodbye
   examples: |
@@ -30,63 +43,85 @@ nlu:
     - see you around
     - bye bye
     - see you later
+    - bye have a nice day
+    - Have a great day
 
-- intent: affirm
+- intent: support
   examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+    - Can you guide me
+    - Can you help me
+    - Bot will you help me
+    - Bot will you guide me
+    - I need your help
+    - I need a suggestion
+    - help out
+    - will u help?
+    - pls help
+    - please help
+    - I need your support
+    - I need your guidance
+    - what is CVV
+    - do you know about CVV
+    - What do I do 
+    - CVV what?
+    - CVV
+    - Heyy guide me on cvv
+    - How to fill form
+    - form what?
+    - Tell me how to fill form
+    - After how many days do I get my card
+    - How many days required?
+    - Where is the form?
+    - Did my form get submitted
 
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
 
-- intent: mood_great
+- intent: tutorial
   examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+    - tutorial please
+    - tutorial
+    - please i need full guidance to fill form
+    - please i need full guidance to fill details
+    - suggest me tutorial
+    - any link
+    - full tutorial
+    - vedio link
+    - vedio tutorial
+    - web link
+    - any document 
+    - any document for guidance
 
-- intent: mood_unhappy
+- intent: feedback
   examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+    - i did not liked your UI
+    - bad UI
+    - your interface is bad
+    - very worst
+    - very worst interface
+    - very bad interface
+    - not nice
+    - not nice interface
+    - not effective solutions
+    - i hated it
+    - bad content
+    - not userfriendly
+    - not at all userfriendly
+    - user interface bad
+    - bad colours
+    - routine site
+    - some buttonds are not working
+    - no buttons working
+    - icons not touchable
+    - icons not working
 
-- intent: bot_challenge
+- intent: bug_report
   examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+    - I am unable to fill form
+    - Form not opening
+    - Its not accpeting values
+    - no accpetance
+    - not taking my phone number
+    - unable to submit
+    - not getting submitted
+    - site unable to reach
+    - site not reaching
+  
