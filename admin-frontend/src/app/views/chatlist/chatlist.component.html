@@ -2,16 +2,18 @@
   <thead>
     <tr>
       <th>Sr No.</th>
-      <th>Description</th>
-      <th>Date-Time</th>
+      <th>Client ID</th>
+      <th>Started-at</th>
+      <th>Ended-at</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <tr class="bg-emerald-200 text-center" *ngFor="let r of records; let i=index">
       <td> {{i+1}} </td>
-      <td> {{r.description}} </td>
-      <td> {{r.date_time}} </td>
+      <td> {{r.client_id}} </td>
+      <td> {{r.started_at}} </td>
+      <td> {{r.ended_at}} </td>
       <td>
         <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="updateRecord(r)"> Edit </button>
         <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="deleteRecord(r)"> Delete </button>
