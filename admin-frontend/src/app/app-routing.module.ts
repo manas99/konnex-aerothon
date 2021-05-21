@@ -13,6 +13,7 @@ import { UsersComponent } from './views/users/users.component';
 import { LoginComponent } from './views/login/login.component';
 import { ChatComponent } from './views/chat/chat.component';
 import { FeedbackComponent } from './views/feedback/feedback.component';
+import { ChatlistComponent } from './views/chatlist/chatlist.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
 			{ path: 'users', component: UsersComponent },
 			{ path: 'chat', component: ChatComponent },
 			{ path: 'feedback', component: FeedbackComponent },
+			{ path: 'chatlist', component: ChatlistComponent },
 		],
 		// canActivate: [AuthGuard]
 	},
