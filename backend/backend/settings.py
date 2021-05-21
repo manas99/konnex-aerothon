@@ -49,6 +49,8 @@ MY_APPS = [
     'api.users',
     'api.feedback',
     'api.announcements',
+    'api.bugreports',
+    'api.tutorials',
     'sockets',
     'chatbot',
     'helpers',
