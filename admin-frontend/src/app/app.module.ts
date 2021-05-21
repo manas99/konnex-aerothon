@@ -19,6 +19,7 @@ import { ChatComponent } from './views/chat/chat.component';
 import { FeedbackComponent } from './views/feedback/feedback.component';
 import { FullPageComponent } from './layouts/full-page/full-page.component';
 import { SidebarNavComponent } from './layouts/sidebar-nav/sidebar-nav.component';
+import { ChatlistComponent } from './views/chatlist/chatlist.component';
 
 @NgModule({
 	declarations: [
@@ -32,7 +33,8 @@ import { SidebarNavComponent } from './layouts/sidebar-nav/sidebar-nav.component
 		ChatComponent,
 		FeedbackComponent,
 		FullPageComponent,
-		SidebarNavComponent
+		SidebarNavComponent,
+    ChatlistComponent
 	],
 	imports: [
 		BrowserModule,
