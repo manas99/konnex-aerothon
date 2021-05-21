@@ -3,31 +3,33 @@ version: "2.0"
 intents:
   - greet
   - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+  - support
+  - tutorial
+  - feedback
+  - bug_report
+  
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: "Hey! Welcome to our service bot!!"
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+  utter_support:
+  - text: "Here you get your suport!\n
+           1. CVV is Card Verification Value. \n
+           2. The necessary details in the form are Fullname, Age, Bank account type, Bank Name "
+    #image: "https://i.imgur.com/nGF1K8f.jpg"
 
-  utter_did_that_help:
-  - text: "Did that help you?"
+  utter_tutorial:
+  - text: "Here is complete tutorial for you!"
 
-  utter_happy:
-  - text: "Great, carry on!"
+  utter_feedback:
+  - text: "Thanks for your valuable feedback!"
+
+  utter_bug_report:
+  - text: "We will definitely solve your issues"
 
   utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "Bye! Take care"
 
 session_config:
   session_expiration_time: 60
