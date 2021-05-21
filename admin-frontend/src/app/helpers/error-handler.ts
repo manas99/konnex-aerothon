@@ -17,11 +17,14 @@ export class GlobalErrorHandler implements ErrorHandler {
 			alertify.error("Unauthorized.");
 			return;
 		}
+		if (error.status == 0) {
+			alertify.error("An error occured.");
+			return;
+		}
 		if (error.error && error.error.detail) {
 			alertify.error(error.error.detail);
 			return;
-		}
-		if (error.error && !error.error.success) {
+		} if (error.error && !error.error.success) {
 			if (Array.isArray(error.error.message)) {
 				error.error.message.forEach((item: any) => {
 					alertify.error(item);

@@ -1,2 +1,2 @@
-def handle_input(msg):
+def get_chatbot_response(msg):
     return {"message": msg, "action": "chat"}

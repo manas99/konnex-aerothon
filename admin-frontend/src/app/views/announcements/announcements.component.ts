@@ -5,21 +5,18 @@ import { KonnexService } from '../../services/konnex.service';
 declare let $: any;
 declare let alertify: any;
 
-
 @Component({
-  selector: 'app-announcements',
-  templateUrl: './announcements.component.html',
-  styleUrls: ['./announcements.component.scss']
+	selector: 'app-announcements',
+	templateUrl: './announcements.component.html',
+	styleUrls: ['./announcements.component.scss']
 })
 export class AnnouncementsComponent implements OnInit {
 
-  records = [{id: 1, description: "ahuiewir  fuuffjhc", date_time: "01/01/2020", is_enabled: true},
-             {id: 2, description: "ahuiewir  fuuffjhc", date_time: "01/01/2020", is_enabled: true},
-             {id: 3, description: "ahuiewir  fuuffjhc", date_time: "01/01/2020", is_enabled: true},
-             {id: 4, description: "ahuiewir  fuuffjhc", date_time: "01/01/2020", is_enabled: true},]
-  constructor(private konnex: KonnexService) { }
+	records: any = [];
 
-  ngOnInit() {
+	constructor(private konnex: KonnexService) { }
+
+	ngOnInit() {
 		this.getRecords();
 	}
 
@@ -33,16 +30,21 @@ export class AnnouncementsComponent implements OnInit {
 
 	createRecord() {
 		var html = '';
+		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Title" id="a-title"/>';
 		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Description" id="a-description"/>';
-		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Date-time" id="a-date-time"/>';
-    html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="enabled" id="enabled"/>';
-
+		html += '<div class="text-center w-full my-2 p-2"><label><input type="checkbox" class="rounded bg-gray-200 border-transparent focus:border-transparent focus:bg-gray-200 text-gray-700 focus:ring-1 focus:ring-offset-2 focus:ring-gray-500" id="a-enabled"><span class="ml-2">Enable the announcement</span></label></div>';
 
 		alertify.confirm('Create a new Announcement', html, () => {
 			var data: any = {}
+			if ($('#a-title').val() == '') {
+				return alertify.error("Title cannot be empty");
+			}
+			if ($('#a-description').val() == '') {
+				return alertify.error("Description cannot be empty");
+			}
 			data['description'] = $('#a-description').val();
-			data['date_time'] = $('#a-date-time').val();
-      data['enabled'] = $('#enabled').val();
+			data['title'] = $('#a-title').val();
+			data['is_enabled'] = $('#a-enabled:checked').length > 0;
 			this.konnex.createAnnouncement(data).subscribe((res: any) => {
 				if (res.success) {
 					alertify.success(res.message);
@@ -66,16 +68,29 @@ export class AnnouncementsComponent implements OnInit {
 
 	updateRecord(rec: any) {
 		var html = '';
-		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Description" id="a-description" value="' + rec.description + '" disabled/>';
-		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Date-time" id="a-date-time" value="' + rec.date_time + '"/>';
-    html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="enabled" id="enabled" value="' + rec.is_enabled + '"/>';
+		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Title" id="edit-a-title" value="' + rec.title + '"/>';
+		html += '<input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Description" id="edit-a-description" value="' + rec.description + '"/>';
 
+		html += '<div class="text-center w-full my-2 p-2"><label><input type="checkbox" class="rounded bg-gray-200 border-transparent focus:border-transparent focus:bg-gray-200 text-gray-700 focus:ring-1 focus:ring-offset-2 focus:ring-gray-500" id="edit-a-enabled"';
+		if (rec.is_enabled) {
+			html += 'checked';
+		}
+		html += '><span class="ml-2">Enable the announcement</span></label></div>';
 
-		alertify.confirm('Edit User', html, () => {
+		alertify.confirm('Edit Announcement', html, () => {
 			var data: any = {}
-			data['a-description'] = $('#a-description');
-			data['a-date-time'] = $('#a-date-time').val();
-			this.konnex.editAnnouncemnent(data).subscribe((res: any) => {
+			data['announcement_id'] = rec.id;
+			if ($('#edit-a-title').val() == '') {
+				return alertify.error("Title cannot be empty");
+			}
+			if ($('#edit-a-description').val() == '') {
+				return alertify.error("Description cannot be empty");
+			}
+			data['description'] = $('#edit-a-description').val();
+			data['title'] = $('#edit-a-title').val();
+			data['is_enabled'] = $('#edit-a-enabled:checked').length > 0;
+
+			this.konnex.updateAnnouncemnent(data).subscribe((res: any) => {
 				if (res.success) {
 					alertify.success(res.message);
 					this.getRecords();

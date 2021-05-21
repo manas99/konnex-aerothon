@@ -108,31 +108,29 @@ class Konnex {
 		$(this._chat_box).toggle('scale');
 	}
 
-	_userChatSubmit() {
-		//send message using sockets
-	}
-
 	_socketOnOpen(msg) {
-		console.log(msg);
 		$(this._chat_logs).html("<div class='text-center text-success'>Connected to server!</div>")
 	}
 	_socketMsgReceived(ret) {
-		console.log(ret);
-		//handle msg and take action
 		var msg = JSON.parse(ret.data);
-		if (msg['action'] == 'chat') {
+		console.log(msg);
+		if (msg['action'] == 'query_device_type') {
+			console.log(this._getDeviceType());
+			this._sockSendMsg("query_device_type", this._getDeviceType());
+		} else if (msg['action'] == 'chat') {
 			this.displayMsg(msg['message']);
+		} else if (msg['action'] == 'show_announcement') {
+			this.showAnnouncement(msg['message']);
 		}
 	}
 	_socketError(error) {
-		console.log(error);
-		//display error
-		// this._chat_logs.innerHTML = "<div class='text-center text-danger'>Could not connect to server</div>";
-		$(this._chat_logs).html("<div class='text-center text-danger'>Could not connect to server</div>")
+		$(this._chat_logs).html("<div class='text-center text-danger'>An error occured.</div>")
 	}
 	_socketOnClose(event) {
-		console.log(event);
 		$(this._chat_logs).html("<div class='text-center text-danger'>Connect to the server was closed.</div>")
+	}
+	_sockSendMsg(action, message) {
+		this._socket.send(JSON.stringify({ action: action, message: message }));
 	}
 
 	_generateUserId() {
@@ -145,12 +143,30 @@ class Konnex {
 		return result;
 	}
 
-	displayMsg(msg) {
+	showAnnouncement(ann) {
+		this.displayMsg(ann, { allowHTML: true });
+	}
+
+	displayMsg(msg, params = {}) {
+		if (!!this._chat_circle._tippy) {
+			this._chat_circle._tippy.destroy()
+		}
+
 		var str = "";
 		str += '<div class="chat-msg user">';
 		str += '<span class="msg-avatar"></span>';
 		str += '<div class="cm-msg-text">' + msg + '</div>';
 		str += '</div>';
+
+		tippy(this._chat_circle, {
+			content: msg,
+			...params
+		})
+		this._chat_circle._tippy.show()
+		setTimeout(() => {
+			this._chat_circle._tippy.destroy()
+		}, 30000);
+
 		$(this._chat_logs).append(str);
 		$(this._chat_logs).stop().animate({
 			scrollTop: $(this._chat_logs)[0].scrollHeight
@@ -160,10 +176,7 @@ class Konnex {
 		if (msg.trim() == '') {
 			return false;
 		}
-		var msg_data = {
-			"message": msg,
-		}
-		this._socket.send(JSON.stringify(msg_data))
+		this._sockSendMsg("chat", msg);
 		var str = "";
 		str += '<div class="chat-msg self">';
 		str += '<span class="msg-avatar"></span>';
@@ -195,4 +208,19 @@ class Konnex {
 	_createEle(tag, params) {
 		return Object.assign(document.createElement(tag), params);
 	}
+
+	_getDeviceType() {
+		const ua = navigator.userAgent;
+		if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+			return "mobile";
+		}
+		if (
+			/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+				ua
+			)
+		) {
+			return "mobile";
+		}
+		return "desktop";
+	};
 }

@@ -43,6 +43,7 @@ SYSTEM_APPS = [
     'rest_framework',
     'oauth2_provider',
     'channels',
+    'corsheaders',
 ]
 MY_APPS = [
     'api.users',
@@ -56,6 +57,7 @@ MY_APPS = [
 INSTALLED_APPS = SYSTEM_APPS + MY_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -185,3 +187,15 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        # 'LOCATION': '/var/tmp/django_cache',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 100
+        }
+    }
+}
+CORS_ALLOW_ALL_ORIGINS = True

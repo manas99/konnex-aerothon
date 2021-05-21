@@ -7,4 +7,5 @@ urlpatterns = [
     path('update', views.update, name="api_update_user"),
     path('delete', views.delete, name="api_delete_user"),
     path('login', views.login, name="api_login"),
+    path('validate', views.validate, name="api_login"),
 ]

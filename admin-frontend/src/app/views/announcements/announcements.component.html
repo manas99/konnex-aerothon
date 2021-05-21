@@ -1,8 +1,6 @@
 <div>
   <div class="flex my-2">
-    <button class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded mr-1 ml-auto" (click)="createRecord()">
-      Create a new Announcements
-    </button>
+    <button class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded mr-1 ml-auto" (click)="createRecord()">Create Announcement</button>
   </div>
 </div>
 
@@ -11,8 +9,8 @@
     <tr>
       <th>Sr No.</th>
       <th>Description</th>
-      <th>Date-Time</th>
-      <th>is_enabled</th>
+      <th>Created at</th>
+      <th>Is Enabled</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -20,7 +18,7 @@
     <tr class="bg-emerald-200 text-center" *ngFor="let r of records; let i=index">
       <td> {{i+1}} </td>
       <td> {{r.description}} </td>
-      <td> {{r.date_time}} </td>
+      <td> {{r.created_at}} </td>
       <td> {{r.is_enabled}} </td>
       <td>
         <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="updateRecord(r)"> Edit </button>

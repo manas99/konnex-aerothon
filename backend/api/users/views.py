@@ -75,3 +75,13 @@ def update(request):
             user.set_password(request.data['new_password'])
     user.save()
     return response_success(message='User updated successfully.')
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def validate(request):
+    return response_success(
+        result={
+            'user': UserSer(request.user).data,
+        }
+    )
