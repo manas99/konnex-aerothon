@@ -1,0 +1,26 @@
+<table class="table-auto w-full" *ngIf="records.length > 0">
+  <thead>
+    <tr>
+      <th>Sr No.</th>
+      <th>Feedback</th>
+      <th>Date-Time</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="bg-emerald-200 text-center" *ngFor="let r of records; let i=index">
+      <td> {{i+1}} </td>
+      <td> {{r.feedback}} </td>
+      <td> {{r.date_time}} </td>
+      <td>
+        <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="updateRecord(r)"> Edit </button>
+        <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="deleteRecord(r)"> Delete </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="text-center my-10 text-2xl text-gray-600" *ngIf="records.length == 0">
+  No records found
+</div>
