@@ -15,7 +15,7 @@ export class AuthService {
 		var params: any = {};
 		params['username'] = username;
 		params['password'] = pass;
-		return this.http.post<any>(this.config.BASE_API_URL + 'auth/login', params).pipe(tap(
+		return this.http.post<any>(this.config.BASE_API_URL + 'users/login', params).pipe(tap(
 			res => {
 				if (res.result && res.result.access_token) {
 					localStorage.setItem('access_token', res.result.access_token);
