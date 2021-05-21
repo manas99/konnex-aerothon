@@ -67,7 +67,6 @@ class Konnex {
 		this._chat_box_body = this._createEle("div", { className: 'chat-box-body' });
 		this._chat_box_body.innerHTML = '<div class="chat-box-overlay"></div>';
 		this._chat_logs = this._createEle('div', { id: "chat-logs" });
-		console.log("Creating chat logs", this._chat_logs);
 		this._chat_box_body.appendChild(this._chat_logs);
 		this._chat_box.appendChild(this._chat_box_body);
 		this._chat_inp_cont = this._createEle("div", { className: 'chat-input' });
@@ -97,7 +96,7 @@ class Konnex {
 
 	newSocketConnection() {
 		console.log("Creating socket");
-		this._socket = new WebSocket(this.ws_host);
+		this._socket = new WebSocket(this.ws_host + this._user_id);
 		this._socket.onopen = (event) => { this._socketOnOpen(event) };
 		this._socket.onmessage = (msg) => { this._socketMsgReceived(msg) };
 		this._socket.onerror = (error) => { this._socketError(error) };
@@ -115,14 +114,14 @@ class Konnex {
 
 	_socketOnOpen(msg) {
 		console.log(msg);
-		//take action
+		$(this._chat_logs).html("<div class='text-center text-success'>Connected to server!</div>")
 	}
 	_socketMsgReceived(ret) {
 		console.log(ret);
 		//handle msg and take action
-		var msg = JSON.parse(ret);
+		var msg = JSON.parse(ret.data);
 		if (msg['action'] == 'chat') {
-			this.displayMsg(msg['data']);
+			this.displayMsg(msg['message']);
 		}
 	}
 	_socketError(error) {
@@ -133,7 +132,7 @@ class Konnex {
 	}
 	_socketOnClose(event) {
 		console.log(event);
-		//take action
+		$(this._chat_logs).html("<div class='text-center text-danger'>Connect to the server was closed.</div>")
 	}
 
 	_generateUserId() {
@@ -154,13 +153,17 @@ class Konnex {
 		str += '</div>';
 		$(this._chat_logs).append(str);
 		$(this._chat_logs).stop().animate({
-			scrollTop: $(".chat-logs")[0].scrollHeight
+			scrollTop: $(this._chat_logs)[0].scrollHeight
 		}, 1000);
 	}
 	submitMsg(msg) {
 		if (msg.trim() == '') {
 			return false;
 		}
+		var msg_data = {
+			"message": msg,
+		}
+		this._socket.send(JSON.stringify(msg_data))
 		var str = "";
 		str += '<div class="chat-msg self">';
 		str += '<span class="msg-avatar"></span>';
@@ -169,7 +172,7 @@ class Konnex {
 		$(this._chat_logs).append(str);
 		$(this._chat_inp_field).val('');
 		$(this._chat_logs).stop().animate({
-			scrollTop: $(".chat-logs")[0].scrollHeight
+			scrollTop: $(this._chat_logs)[0].scrollHeight
 		}, 1000);
 	}
 
