@@ -7,6 +7,18 @@ intents:
   - tutorial
   - feedback
   - bug_report
+
+entities:
+- myentity
+
+
+slots:
+  myentity:
+    type: text
+
+
+actions:
+- action_hello_world
   
 
 responses:
@@ -14,10 +26,8 @@ responses:
   - text: "Hey! Welcome to our service bot!!"
 
   utter_support:
-  - text: "Here you get your suport!\n
-           1. CVV is Card Verification Value. \n
-           2. The necessary details in the form are Fullname, Age, Bank account type, Bank Name "
-    #image: "https://i.imgur.com/nGF1K8f.jpg"
+  - text: "Here you get your suport!"
+    
 
   utter_tutorial:
   - text: "Here is complete tutorial for you!"

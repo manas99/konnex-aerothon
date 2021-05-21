@@ -48,6 +48,65 @@ nlu:
 
 - intent: support
   examples: |
+    - what is [cvv](myentity)
+    - do you know about [cvv](myentity)
+    - [cvv] what?(myentity)
+    - [cvv](myentity)
+    - Heyy guide me on [cvv](myentity)
+    - [CVV] any idea(myentity)
+    - [cvv] tell(myentity)
+    - should i give full [name](myentity)
+    - full [name] requireed(myentity)
+    - [name] required(myentity)
+    - [name] required or not(myentity)
+    - [bank] account(myentity)
+    - which [bank] account is required(myentity)
+    - any [bank] account is fine(myentity)
+    - do i need to pay [money](myentity)
+    - [money] required or not(myentity)
+    - what about [money](myentity)
+    - [money](myentity)
+    - [mail](myentity)
+    - what [mail] id should i use(myentity)
+    - what [mail] should i use(myentity)
+    - [mail] id what(myentity)
+    - [mail] what(myentity)
+    - tell me about [mail] id(myentity)
+    - can I use any [mail] id(myentity)
+    - [card number](myentity)
+    - what is that [card number](myentity)
+    - what should i fill in that [card number](myentity)
+    - what [card number](myentity)
+    - please tell me what to fill in [card number](myentity)
+    - where is [card number] available(myentity)
+    - where will be [card number](myentity)
+    - [expiry](myentity)
+    - what is [expiry] date(myentity)
+    - how to know the [expiry] date(myentity)
+    - where will be the [expiry] date mentioned(myentity)
+    - [expiry] date what(myentity)
+
+    
+
+
+
+- intent: tutorial
+  examples: |
+    - tutorial please
+    - tutorial
+    - Tell me how to fill form
+    - please i need full guidance to fill form
+    - please i need full guidance to fill details
+    - suggest me tutorial
+    - any link
+    - What do I do 
+    - full tutorial
+    - vedio link
+    - How to fill form
+    - vedio tutorial
+    - web link
+    - any document 
+    - any document for guidance
     - Can you guide me
     - Can you help me
     - Bot will you help me
@@ -60,35 +119,7 @@ nlu:
     - please help
     - I need your support
     - I need your guidance
-    - what is CVV
-    - do you know about CVV
-    - What do I do 
-    - CVV what?
-    - CVV
-    - Heyy guide me on cvv
-    - How to fill form
-    - form what?
-    - Tell me how to fill form
-    - After how many days do I get my card
-    - How many days required?
-    - Where is the form?
-    - Did my form get submitted
 
-
-- intent: tutorial
-  examples: |
-    - tutorial please
-    - tutorial
-    - please i need full guidance to fill form
-    - please i need full guidance to fill details
-    - suggest me tutorial
-    - any link
-    - full tutorial
-    - vedio link
-    - vedio tutorial
-    - web link
-    - any document 
-    - any document for guidance
 
 - intent: feedback
   examples: |
