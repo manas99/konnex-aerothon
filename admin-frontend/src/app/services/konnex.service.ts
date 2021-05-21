@@ -42,4 +42,20 @@ export class KonnexService {
       return this.http.post<any>(this.config.BASE_API_URL + 'feedback/edit', data);
     }
 
+    readReport() {
+      return this.http.get<any>(this.config.BASE_API_URL + "announcement/read");
+    }
+
+    deleteReport(id: number) {
+      var params: any = {};
+      params['announcement_id'] = id;
+      return this.http.post<any>(this.config.BASE_API_URL + 'announcement/delete', params);
+    }
+
+    editReport(data: any) {
+      return this.http.post<any>(this.config.BASE_API_URL + 'announcement/edit', data);
+    }
+
+
+
 }
