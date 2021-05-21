@@ -1,5 +1,5 @@
 declare let $: any;
-
+declare let tippy: any;
 class Konnex {
 	_pre = "knx";
 	// Chat body structure
@@ -147,10 +147,46 @@ class Konnex {
 	}
 
 	displayMsg(msg) {
-		//display
+		var str = "";
+		str += '<div class="chat-msg user">';
+		str += '<span class="msg-avatar"></span>';
+		str += '<div class="cm-msg-text">' + msg + '</div>';
+		str += '</div>';
+		$(this._chat_logs).append(str);
+		$(this._chat_logs).stop().animate({
+			scrollTop: $(".chat-logs")[0].scrollHeight
+		}, 1000);
 	}
 	submitMsg(msg) {
-		//display
+		if (msg.trim() == '') {
+			return false;
+		}
+		var str = "";
+		str += '<div class="chat-msg self">';
+		str += '<span class="msg-avatar"></span>';
+		str += '<div class="cm-msg-text">' + msg + '</div>';
+		str += '</div>';
+		$(this._chat_logs).append(str);
+		$(this._chat_inp_field).val('');
+		$(this._chat_logs).stop().animate({
+			scrollTop: $(".chat-logs")[0].scrollHeight
+		}, 1000);
+	}
+
+	showTutorial(arr) {
+		for (var i = 0; i < arr.length; i++) {
+			var ele = "#" + arr[i]["html_id"];
+			tippy(ele, {
+				placement: 'right',
+				content: arr[i]["description"],
+			});
+		}
+	}
+
+	displayAnnouncement(msg) {
+		tippy('#chat-circle', {
+			content: msg,
+		});
 	}
 
 	_createEle(tag, params) {
