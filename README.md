@@ -39,3 +39,10 @@ source venv/bin/activate
 - admin-frontend:
     - `cd admin-frontend`
     - `ng serve`
+
+## COLLABORATORS
+* [Manas Oswal](https://github.com/manas99)
+* [Anshuman Singh Sisodia](https://github.com/graypacket)
+* [Amrita Nayak](https://github.com/AmritaNayak1212)
+* [Shaik Yasmeen](https://github.com/shaikyasmeen-mldl)
+* [Sakilam Ravi Teja](https://github.com/RavitejaSakilam)
