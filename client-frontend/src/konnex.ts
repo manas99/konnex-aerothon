@@ -203,7 +203,6 @@ class Konnex {
 	}
 
 	showTutorial(arr) {
-		console.log(arr);
 		this.displayMsg(arr.description);
 		this._recursiveDisplayTippy(arr.steps, 0);
 	}
@@ -227,6 +226,14 @@ class Konnex {
 				ele._tippy.hide()
 				this._recursiveDisplayTippy(arr, i - 1)
 			})
+		}
+
+		if (i == arr.length) {
+			for (let i = 0; i < arr.length; i++) {
+				const id = "#" + arr[i].html_id;
+				var ele: any = document.querySelector(id);
+				ele._tippy.destroy();
+			}
 		}
 
 	}

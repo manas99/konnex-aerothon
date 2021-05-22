@@ -14,7 +14,7 @@
 pip3 install virtualenv
 virtualenv venv
 source venv/bin/activate # In windows use: `venv\Scripts\activate`
-pip3 install -r requirements.txt
+pip3 install -r requirements-rasa.txt
 npm install
 ```
 - follow steps below to setup angular project:
@@ -30,12 +30,13 @@ source venv/bin/activate
 ```
 
 #### To run:
+- Check individual `README.md` files for more details
 - backend:
     - `cd backend`
     - `python3 manage.py runserver 0.0.0.0:8000`
 - client-frontend:
     - `cd client-frontend`
-    - `http-server`
+    - `npm run serve`
 - admin-frontend:
     - `cd admin-frontend`
     - `ng serve`
