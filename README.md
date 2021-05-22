@@ -15,12 +15,16 @@ pip3 install virtualenv
 virtualenv venv
 source venv/bin/activate # In windows use: `venv\Scripts\activate`
 pip3 install -r requirements-rasa.txt
-npm install
 ```
-- follow steps below to setup angular project:
+- follow steps below to setup admin-frontend:
 ```bash
 cd admin-frontend
-npm install # In windows use: `venv\Scripts\activate`
+npm install
+```
+- follow steps below to setup client-frontend:
+```bash
+cd admin-frontend
+npm install
 ```
 
 #### Everytime you run:
