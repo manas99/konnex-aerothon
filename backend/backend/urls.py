@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('api/', include('api.urls')),
+    path('sockets/', include('sockets.urls')),
 ]
 
 handler404 = 'helpers.views.not_found'

@@ -9,6 +9,8 @@ import { SocketService } from '../../services/socket.service';
 })
 export class DashboardComponent implements OnInit {
 
+	name = "Dashboard"
+
 	counts_clients = {
 		total: 0,
 		mobile: 0,

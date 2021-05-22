@@ -11,6 +11,8 @@ declare let alertify: any;
 })
 export class UsersComponent implements OnInit {
 
+	name = "Users"
+
 	records: any = [];
 
 	constructor(public auth_: AuthService) { }

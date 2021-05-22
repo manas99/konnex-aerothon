@@ -19,7 +19,7 @@ stories:
   - action: utter_bug_report
   - intent: goodbye
   - action: utter_goodbye
-  
+
 - story: path2
   steps:
   - intent: greet
@@ -67,5 +67,3 @@ stories:
   steps:
   - intent: goodbye
   - action: utter_goodbye
-
-

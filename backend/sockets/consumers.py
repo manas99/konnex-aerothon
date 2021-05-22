@@ -3,11 +3,12 @@ from django.utils import timezone
 from django.core.cache import caches
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from chatbot import get_chatbot_response
 from api.announcements.models import Announcement
+from .chatbot import get_chatbot_response
 from .models import ClientConnection
 from .messages import get_client_counts, send_msg, get_announcement
-from .constants import ALL_CLIENTS_GROUP, ALL_ADMIN_DASH_GROUP
+from .constants import ALL_CLIENTS_GROUP, ALL_ADMIN_DASH_GROUP, ALL_ADMIN_CONN_GROUP
+from .serializers import ClientConnSer
 
 
 class ClientConsumer(WebsocketConsumer):
@@ -28,6 +29,10 @@ class ClientConsumer(WebsocketConsumer):
                 "type": "data.clients.count",
                 'message': get_client_counts()
             })
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_CONN_GROUP, {
+                "type": "connections.new",
+                'message': send_msg("new_connection", ClientConnSer(self.connection_model).data)})
         for x in Announcement.objects.filter(is_enabled=True).order_by('created_at'):
             self.send(text_data=send_msg(
                 'show_announcement', get_announcement(x)))
@@ -43,6 +48,10 @@ class ClientConsumer(WebsocketConsumer):
             key, str(int(caches['default'].get_or_set(key, '0')) - 1))
         async_to_sync(self.channel_layer.group_discard)(
             ALL_CLIENTS_GROUP, self.channel_name)
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_CONN_GROUP, {
+                "type": "connections.end",
+                'message': send_msg("end_connection", self.connection_model.client_id)})
         async_to_sync(self.channel_layer.group_discard)(
             self.client_id, self.channel_name)
         async_to_sync(self.channel_layer.group_send)(
@@ -67,7 +76,7 @@ class ClientConsumer(WebsocketConsumer):
                 })
             return
         if _json['action'] == 'chat':
-            response = get_chatbot_response(message)
+            response = get_chatbot_response(message, self.client_id)
             self.send(text_data=json.dumps(response))
             return
 
@@ -99,3 +108,30 @@ class AdminDashboardConsumer(WebsocketConsumer):
 
     def data_clients_count(self, event):
         self.send(text_data=json.dumps(event))
+
+
+class AdminConnectionsConsumer(WebsocketConsumer):
+    def connect(self):
+        async_to_sync(self.channel_layer.group_add)(
+            ALL_ADMIN_CONN_GROUP, self.channel_name)
+        self.accept()
+        ret = {x.client_id: ClientConnSer(
+            x).data for x in ClientConnection.objects.filter(ended_at=None)}
+        self.send(text_data=send_msg("active_connections", ret))
+
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            ALL_ADMIN_CONN_GROUP, self.channel_name)
+
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+        self.send(text_data=json.dumps({
+            'message': message
+        }))
+
+    def connections_new(self, event):
+        self.send(text_data=event['message'])
+
+    def connections_end(self, event):
+        self.send(text_data=event['message'])

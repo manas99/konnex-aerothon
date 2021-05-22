@@ -10,7 +10,7 @@ from helpers import has_parameters, response_success, response_error
 @has_parameters(['title', 'description', 'client_id'])
 def create(request):
     BugReport(client_id=request.data['client_id'], title=request.data['title'],
-             description=request.data['description']).save()
+              description=request.data['description']).save()
     return response_success(message='Bug report added successfully.')
 
 

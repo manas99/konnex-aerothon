@@ -86,9 +86,6 @@ nlu:
     - where will be the [expiry] date mentioned(myentity)
     - [expiry] date what(myentity)
 
-    
-
-
 
 - intent: tutorial
   examples: |
@@ -99,13 +96,13 @@ nlu:
     - please i need full guidance to fill details
     - suggest me tutorial
     - any link
-    - What do I do 
+    - What do I do
     - full tutorial
     - vedio link
     - How to fill form
     - vedio tutorial
     - web link
-    - any document 
+    - any document
     - any document for guidance
     - Can you guide me
     - Can you help me
@@ -155,4 +152,3 @@ nlu:
     - not getting submitted
     - site unable to reach
     - site not reaching
-  

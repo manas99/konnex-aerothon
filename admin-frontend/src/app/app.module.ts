@@ -20,6 +20,8 @@ import { FeedbackComponent } from './views/feedback/feedback.component';
 import { FullPageComponent } from './layouts/full-page/full-page.component';
 import { SidebarNavComponent } from './layouts/sidebar-nav/sidebar-nav.component';
 import { ChatlistComponent } from './views/chatlist/chatlist.component';
+import { CreateTutorialComponent } from './views/create-tutorial/create-tutorial.component';
+import { DefinitionsComponent } from './views/definitions/definitions.component';
 
 @NgModule({
 	declarations: [
@@ -34,7 +36,9 @@ import { ChatlistComponent } from './views/chatlist/chatlist.component';
 		FeedbackComponent,
 		FullPageComponent,
 		SidebarNavComponent,
-    ChatlistComponent
+		ChatlistComponent,
+		CreateTutorialComponent,
+		DefinitionsComponent
 	],
 	imports: [
 		BrowserModule,

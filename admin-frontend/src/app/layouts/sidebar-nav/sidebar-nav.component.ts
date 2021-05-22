@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 })
 export class SidebarNavComponent implements OnInit {
 
+	comp: any = null;
+	user: any = null;
+
 	sideBar: any = null;
 	toggler: any = null;
 	moved: boolean = false;
@@ -17,6 +20,7 @@ export class SidebarNavComponent implements OnInit {
 	constructor(private auth: AuthService, private router: Router) { }
 
 	ngOnInit(): void {
+		this.user = this.auth.getUser();
 	}
 
 	ngAfterViewInit() {
@@ -25,6 +29,7 @@ export class SidebarNavComponent implements OnInit {
 		this.sideBar.style.transform = "translateX(-260px)";
 		this.moved = true;
 	}
+
 	sidebarHandler() {
 		if (this.moved) {
 			this.sideBar.style.transform = "translateX(0px)";
@@ -38,6 +43,10 @@ export class SidebarNavComponent implements OnInit {
 	logout() {
 		this.auth.logout();
 		this.router.navigate(["/login"]);
+	}
+
+	viewSet(comp: any) {
+		this.comp = comp;
 	}
 
 }

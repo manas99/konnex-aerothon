@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { ConfigService } from './config.service';
 
@@ -23,7 +24,7 @@ export class SocketService {
 		return this._connectionStatus;
 	}
 
-	constructor(private conf_: ConfigService) {
+	constructor(private http: HttpClient, private conf_: ConfigService) {
 		this._host = "ws://" + this.conf_.BASE_HOST + "/";
 	}
 
@@ -73,6 +74,16 @@ export class SocketService {
 			}
 		}
 		return false;
+	}
+
+	read() {
+		return this.http.get<any>(this.conf_.BASE_URL + "sockets/read");
+	}
+
+	delete(id: number) {
+		var params: any = {};
+		params['conn_id'] = id;
+		return this.http.post<any>(this.conf_.BASE_URL + "sockets/delete", params);
 	}
 
 }

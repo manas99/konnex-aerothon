@@ -12,6 +12,8 @@ declare let alertify: any;
 })
 export class AnnouncementsComponent implements OnInit {
 
+	name = "Announcements"
+
 	records: any = [];
 
 	constructor(private konnex: KonnexService) { }
@@ -98,7 +100,5 @@ export class AnnouncementsComponent implements OnInit {
 			});
 		}, () => { })
 	}
-
-
 
 }

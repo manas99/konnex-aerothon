@@ -1,18 +1,12 @@
 from django.db import models
-from django.utils import timezone
 
-# Create your models here.
 
 class Tutorial(models.Model):
-    client_id = models.CharField(max_length=100)
     intent = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
 
     def __str__(self):
-        return str(self.client_id) + " - " + str(self.intent) + " - " + str(self.description)
-
-    def get_client_id(self):
-        return self.client_id
+        return str(self.intent) + " - " + str(self.description)
 
     def get_intent(self):
         return self.intent
@@ -20,11 +14,15 @@ class Tutorial(models.Model):
     def get_description(self):
         return self.description
 
+
 class TutorialStep(models.Model):
     tutorial = models.ForeignKey(Tutorial, on_delete=models.CASCADE)
     html_id = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     step_number = models.IntegerField()
+
+    class Meta:
+        ordering = ('-tutorial__id', 'step_number',)
 
     def __str__(self):
         return str(self.html_id) + " - " + str(self.description) + " - " + str(self.step_number)

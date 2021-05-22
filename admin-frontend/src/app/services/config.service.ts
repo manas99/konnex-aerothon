@@ -9,5 +9,6 @@ export class ConfigService {
 
 	BASE_API_URL = environment.BASE_API_URL;
 	BASE_HOST = environment.BASE_HOST;
+	BASE_URL = environment.BASE_URL;
 
 }

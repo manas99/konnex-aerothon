@@ -1,0 +1,43 @@
+<div class="mx-1">
+  <input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Key" id="a-intent" [(ngModel)]="intent" />
+  <input class="my-2 p-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" placeholder="Description" id="a-description" [(ngModel)]="description" />
+
+  <div class="flex my-2">
+    <button class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded mr-1 ml-auto" (click)="addStep()">Add Step</button>
+  </div>
+
+  <table class="table-auto w-full" *ngIf="steps.length > 0">
+    <thead>
+      <tr>
+        <th>Step Number</th>
+        <th>HTML Tag ID</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-emerald-200 text-center" *ngFor="let r of steps; let i=index">
+        <td class="px-2">
+          <input type="number" class="p-2 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" [(ngModel)]="r.step_number" placeholder="Step Number">
+        </td>
+        <td class="px-2">
+          <input type="text" class="p-2 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" [(ngModel)]="r.html_id" placeholder="HTML tag ID">
+        </td>
+        <td class="px-2">
+          <input type="text" class="p-2 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" [(ngModel)]="r.description" placeholder="Description">
+        </td>
+        <td>
+          <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="removeStep(i)"> Remove </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center my-10 text-2xl text-gray-600" *ngIf="steps.length == 0">
+    No steps added.
+  </div>
+
+  <div class="flex my-2">
+    <button class="mt-2 ml-auto mr-2 px-4 py-2 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800" (click)="createRecord()">Save</button>
+  </div>
+
+</div>

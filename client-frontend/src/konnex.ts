@@ -106,6 +106,15 @@ class Konnex {
 	_toggle() {
 		$(this._chat_circle).toggle('scale');
 		$(this._chat_box).toggle('scale');
+		if ($(this._chat_circle).is(":hidden")) {
+			if (this._chat_circle._tippy) {
+				this._chat_circle._tippy.hide()
+			}
+		} else {
+			if (this._chat_circle._tippy) {
+				this._chat_circle._tippy.show()
+			}
+		}
 	}
 
 	_socketOnOpen(msg) {
@@ -115,12 +124,13 @@ class Konnex {
 		var msg = JSON.parse(ret.data);
 		console.log(msg);
 		if (msg['action'] == 'query_device_type') {
-			console.log(this._getDeviceType());
 			this._sockSendMsg("query_device_type", this._getDeviceType());
 		} else if (msg['action'] == 'chat') {
 			this.displayMsg(msg['message']);
 		} else if (msg['action'] == 'show_announcement') {
 			this.showAnnouncement(msg['message']);
+		} else if (msg['action'] == 'tutorial') {
+			this.showTutorial(msg['message']);
 		}
 	}
 	_socketError(error) {
@@ -151,18 +161,21 @@ class Konnex {
 		if (!!this._chat_circle._tippy) {
 			this._chat_circle._tippy.destroy()
 		}
-
 		var str = "";
 		str += '<div class="chat-msg user">';
 		str += '<span class="msg-avatar"></span>';
 		str += '<div class="cm-msg-text">' + msg + '</div>';
 		str += '</div>';
-
 		tippy(this._chat_circle, {
 			content: msg,
 			...params
 		})
-		this._chat_circle._tippy.show()
+		if ($(this._chat_circle).is(":hidden")) {
+			this._chat_circle._tippy.hide()
+		} else {
+			this._chat_circle._tippy.show()
+		}
+
 		setTimeout(() => {
 			this._chat_circle._tippy.destroy()
 		}, 30000);
@@ -190,13 +203,32 @@ class Konnex {
 	}
 
 	showTutorial(arr) {
-		for (var i = 0; i < arr.length; i++) {
-			var ele = "#" + arr[i]["html_id"];
+		console.log(arr);
+		this.displayMsg(arr.description);
+		this._recursiveDisplayTippy(arr.steps, 0);
+	}
+
+	_recursiveDisplayTippy(arr, i) {
+		if (0 <= i && i < arr.length) {
+			const id = "#" + arr[i].html_id;
+			var ele: any = document.querySelector(id);
+			var body = '<span>' + arr[i].description + '</span><br><div class="flex justify-content-between"><button type="button" class="btn mx-2 text-white" id="prev-' + i.toString() + '">Previous</button><button type="button" class="btn mx-2 text-white" id="next-' + i.toString() + '">Next</button></div>'
 			tippy(ele, {
-				placement: 'right',
-				content: arr[i]["description"],
+				allowHTML: true,
+				content: body,
+				interactive: true,
 			});
+			ele._tippy.show();
+			$("#next-" + i.toString()).click(() => {
+				ele._tippy.hide()
+				this._recursiveDisplayTippy(arr, i + 1)
+			});
+			$("#prev-" + i.toString()).click(() => {
+				ele._tippy.hide()
+				this._recursiveDisplayTippy(arr, i - 1)
+			})
 		}
+
 	}
 
 	displayAnnouncement(msg) {
