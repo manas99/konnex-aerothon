@@ -1,0 +1,25 @@
+<div class="flex flex-wrap items-center p-2 justify-between">
+  <div class="">
+    <span>Connection Status: </span>
+    <span *ngIf="status" class="text-green-600 mx-2">Connected</span>
+    <span *ngIf="!status" class="text-red-500 mx-2">Not Connected</span>
+  </div>
+  <button *ngIf="!status" class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded" (click)="retryConnection()">Retry Connection</button>
+</div>
+<div class="flex">
+  <div class="p-2 m-2 bg-white border rounded text-center w-full">
+    <span class="text-2xl font-semibold">{{counts_clients.total}}</span>
+    <br>
+    <span>Active Clients</span>
+  </div>
+  <div class="p-2 m-2 bg-white border rounded text-center w-full">
+    <span class="text-2xl font-semibold">{{counts_clients.mobile}}</span>
+    <br>
+    <span>Mobile Clients</span>
+  </div>
+  <div class="p-2 m-2 bg-white border rounded text-center w-full">
+    <span class="text-2xl font-semibold">{{counts_clients.desktop}}</span>
+    <br>
+    <span>Desktop Clients</span>
+  </div>
+</div>

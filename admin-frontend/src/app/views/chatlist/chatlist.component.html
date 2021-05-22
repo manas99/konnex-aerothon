@@ -1,0 +1,48 @@
+<div class="flex flex-wrap items-center p-2 justify-between">
+  <div class="">
+    <span>Connection Status: </span>
+    <span *ngIf="status" class="text-green-600 mx-2">Connected</span>
+    <span *ngIf="!status" class="text-red-500 mx-2">Not Connected</span>
+  </div>
+  <button *ngIf="!status" class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded" (click)="retryConnection()">Retry Connection</button>
+</div>
+
+<div class="flex flex-wrap items-center p-2 justify-between my-2 border-b" *ngIf="active">
+  <div class="">
+    <span class="font-bold">Realtime Active Connections: </span>
+  </div>
+  <button class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded" (click)="showAllConnections()">All Connections</button>
+</div>
+<div class="flex flex-wrap items-center p-2 justify-between my-2 border-b" *ngIf="!active">
+  <div class="">
+    <span class="font-bold">All Connections: </span>
+  </div>
+  <button class="bg-white hover:bg-gray-100 text-gray-800 p-1 px-2 border border-gray-200 rounded" (click)="showActiveConnections()">Active Connections</button>
+</div>
+
+<table class="table-auto w-full" *ngIf="!isObjectEmpty(records)">
+  <thead>
+    <tr>
+      <th>Client ID</th>
+      <th>Created at</th>
+      <th>Device</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="bg-emerald-200 text-center" *ngFor="let r of records | keyvalue;">
+      <td> {{r.key}} </td>
+      <td> {{r.value.created_at}} </td>
+      <td> {{r.value.device}} </td>
+      <td>
+        <!-- <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="updateRecord(r)"> Edit </button> -->
+        <button class="bg-transparent hover:bg-gray-100 text-gray-800 p-1 text-blue-700 rounded mx-2" (click)="deleteRecord(r.value)" *ngIf="!active"> Delete </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="text-center my-10 text-2xl text-gray-600" *ngIf="isObjectEmpty(records)">
+  No records found
+</div>

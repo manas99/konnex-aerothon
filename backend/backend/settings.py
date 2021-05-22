@@ -43,18 +43,23 @@ SYSTEM_APPS = [
     'rest_framework',
     'oauth2_provider',
     'channels',
+    'corsheaders',
 ]
 MY_APPS = [
     'api.users',
     'api.feedback',
     'api.announcements',
-    'sockets',
+    'api.bugreports',
+    'api.tutorials',
+    'api.definitions',
+    'sockets.apps.SocketsConfig',
     'helpers',
 ]
 
 INSTALLED_APPS = SYSTEM_APPS + MY_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,7 +97,7 @@ ASGI_APPLICATION = "backend.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -184,3 +189,15 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        # 'LOCATION': '/var/tmp/django_cache',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 100
+        }
+    }
+}
+CORS_ALLOW_ALL_ORIGINS = True

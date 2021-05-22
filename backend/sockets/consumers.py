@@ -1,23 +1,137 @@
 import json
+from django.utils import timezone
+from django.core.cache import caches
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+from api.announcements.models import Announcement
+from .chatbot import get_chatbot_response
+from .models import ClientConnection
+from .messages import get_client_counts, send_msg, get_announcement
+from .constants import ALL_CLIENTS_GROUP, ALL_ADMIN_DASH_GROUP, ALL_ADMIN_CONN_GROUP
+from .serializers import ClientConnSer
 
 
-class ChatConsumer(WebsocketConsumer):
+class ClientConsumer(WebsocketConsumer):
     def connect(self):
-        self.client = self.scope['url_route']['kwargs']['client']
-        async_to_sync(self.channel_layer.group_add)(
-            "clients", self.channel_name)
         self.accept()
+        self.client_id = self.scope['url_route']['kwargs']['client_id']
+        self.connection_model = ClientConnection()
+        self.connection_model.client_id = self.client_id
+        self.connection_model.save()
+        caches['default'].set(
+            'count_clients_total', str(int(caches['default'].get_or_set('count_clients_total', '0')) + 1))
+        async_to_sync(self.channel_layer.group_add)(
+            ALL_CLIENTS_GROUP, self.channel_name)
+        async_to_sync(self.channel_layer.group_add)(
+            self.client_id, self.channel_name)
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_DASH_GROUP, {
+                "type": "data.clients.count",
+                'message': get_client_counts()
+            })
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_CONN_GROUP, {
+                "type": "connections.new",
+                'message': send_msg("new_connection", ClientConnSer(self.connection_model).data)})
+        for x in Announcement.objects.filter(is_enabled=True).order_by('created_at'):
+            self.send(text_data=send_msg(
+                'show_announcement', get_announcement(x)))
+        self.send(text_data=send_msg('query_device_type'))
+
+    def disconnect(self, close_code):
+        self.connection_model.ended_at = timezone.now()
+        self.connection_model.save()
+        caches['default'].set(
+            'count_clients_total', str(int(caches['default'].get_or_set('count_clients_total', '0')) - 1))
+        key = 'count_clients_' + self.connection_model.device
+        caches['default'].set(
+            key, str(int(caches['default'].get_or_set(key, '0')) - 1))
+        async_to_sync(self.channel_layer.group_discard)(
+            ALL_CLIENTS_GROUP, self.channel_name)
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_CONN_GROUP, {
+                "type": "connections.end",
+                'message': send_msg("end_connection", self.connection_model.client_id)})
+        async_to_sync(self.channel_layer.group_discard)(
+            self.client_id, self.channel_name)
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_DASH_GROUP, {
+                "type": "data.clients.count",
+                'message': get_client_counts()
+            })
+
+    def receive(self, text_data):
+        _json = json.loads(text_data)
+        message = _json['message']
+        if _json['action'] == 'query_device_type':
+            self.connection_model.device = message
+            self.connection_model.save()
+            key = 'count_clients_' + message
+            caches['default'].set(
+                key, str(int(caches['default'].get_or_set(key, '0')) + 1))
+            async_to_sync(self.channel_layer.group_send)(
+                ALL_ADMIN_DASH_GROUP, {
+                    "type": "data.clients.count",
+                    'message': get_client_counts()
+                })
+            return
+        if _json['action'] == 'chat':
+            response = get_chatbot_response(message, self.client_id)
+            self.send(text_data=json.dumps(response))
+            return
+
+    def show_announcement(self, event):
+        self.send(text_data=send_msg("show_announcement", event['message']))
+
+
+class AdminDashboardConsumer(WebsocketConsumer):
+    def connect(self):
+        async_to_sync(self.channel_layer.group_add)(
+            ALL_ADMIN_DASH_GROUP, self.channel_name)
+        self.accept()
+        async_to_sync(self.channel_layer.group_send)(
+            ALL_ADMIN_DASH_GROUP, {
+                "type": "data.clients.count",
+                'message': get_client_counts()
+            })
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
-            "clients", self.channel_name)
+            ALL_ADMIN_DASH_GROUP, self.channel_name)
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
-
         self.send(text_data=json.dumps({
             'message': message
         }))
+
+    def data_clients_count(self, event):
+        self.send(text_data=json.dumps(event))
+
+
+class AdminConnectionsConsumer(WebsocketConsumer):
+    def connect(self):
+        async_to_sync(self.channel_layer.group_add)(
+            ALL_ADMIN_CONN_GROUP, self.channel_name)
+        self.accept()
+        ret = {x.client_id: ClientConnSer(
+            x).data for x in ClientConnection.objects.filter(ended_at=None)}
+        self.send(text_data=send_msg("active_connections", ret))
+
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            ALL_ADMIN_CONN_GROUP, self.channel_name)
+
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+        self.send(text_data=json.dumps({
+            'message': message
+        }))
+
+    def connections_new(self, event):
+        self.send(text_data=event['message'])
+
+    def connections_end(self, event):
+        self.send(text_data=event['message'])

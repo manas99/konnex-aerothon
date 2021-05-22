@@ -3,11 +3,15 @@ from django.utils import timezone
 
 # Create your models here.
 
+
 class Announcement(models.Model):
-    client_id = models.CharField(max_length=100)
+    is_enabled = models.BooleanField(default=False)
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
     created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ('-created_at',)
 
     def __str__(self):
         return str(self.client_id) + " - " + str(self.title) + " - " + str(self.description) + " - " + str(self.created_at)

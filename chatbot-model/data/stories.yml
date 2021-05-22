@@ -1,30 +1,69 @@
 version: "2.0"
 
 stories:
-
-- story: happy path
+- story: path1
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - intent: support
+  - action: utter_support
+  - action: action_hello_world
+  - intent: support
+  - action: utter_support
+  - action: action_hello_world
+  - intent: tutorial
+  - action: utter_tutorial
+  - intent: feedback
+  - action: utter_feedback
+  - intent: bug_report
+  - action: utter_bug_report
+  - intent: goodbye
+  - action: utter_goodbye
 
-- story: sad path 1
+- story: path2
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - intent: support
+  - action: utter_support
+  - action: action_hello_world
+  - intent: support
+  - action: utter_support
+  - action: action_hello_world
+  - intent: tutorial
+  - action: utter_tutorial
+  - intent: feedback
+  - action: utter_feedback
+  - intent: bug_report
+  - action: utter_bug_report
 
-- story: sad path 2
+- story: path3
+  steps:
+  - intent: tutorial
+  - action: utter_tutorial
+
+- story: path4
+  steps:
+  - intent: bug_report
+  - action: utter_bug_report
+
+- story: path5
+  steps:
+  - intent: feedback
+  - action: utter_feedback
+
+- story: path6
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
+
+- story: path7
+  steps:
+  - intent: support
+  - action: utter_support
+  - action: action_hello_world
+
+- story: path8
+  steps:
+  - intent: goodbye
   - action: utter_goodbye
